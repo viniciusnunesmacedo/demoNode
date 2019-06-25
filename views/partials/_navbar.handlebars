@@ -13,7 +13,16 @@
         <a class="nav-link" href="/categoria">Categorias</a>
       </li>
       {{#if user}}
-<li class="nav-item">
+        {{#if user.eAdmin}}
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/categorias">Editar Categorias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/postagens">Editar Postagens</a>
+          </li>
+        {{/if}}
+
+        <li class="nav-item">
           <a class="nav-link" href="/usuarios/logoff">Sair</a>
         </li>
       {{else}}

@@ -9,6 +9,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const db = require("./config/db");
+const {eAdmin} = require("./helpers/eAdmin");
 
 require("./config/auth")(passport)
 
@@ -41,6 +42,9 @@ const usuario = require("./routes/usuario");
         res.locals.error_msg = req.flash("error_msg");
         res.locals.error = req.flash("error");
         res.locals.user = req.user || null;
+
+        console.log(req.user)
+
         next();
     });
 
@@ -73,11 +77,11 @@ app.get('/', (req, res) =>{
     });
 });
 
-app.get("/404",(req, res) => {
+app.get("/404", (req, res) => {
     res.send("Erro 404");
 });
 
-app.get("/postagem/:slug",(req, res) => {
+app.get("/postagem/:slug", (req, res) => {
     Postagem.findOne({slug:req.params.slug}).then((postagem)=>{
         if(postagem){
             res.render("postagem/index", {postagem: postagem});
@@ -91,7 +95,7 @@ app.get("/postagem/:slug",(req, res) => {
     });
 });
 
-app.get("/categoria",(req, res) => {
+app.get("/categoria", (req, res) => {
     Categoria.find().then((categorias)=>{
         res.render("categoria/index",{categorias: categorias});
     }).catch((err)=>{
@@ -100,7 +104,7 @@ app.get("/categoria",(req, res) => {
     });
 });
 
-app.get("/categoria/:slug",(req, res) => {
+app.get("/categoria/:slug", (req, res) => {
     Categoria.findOne({slug:req.params.slug}).then((categoria)=>{
         if(categoria){
             Postagem.find({categoria: categoria._id}).then((postagens) => {
